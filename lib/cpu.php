@@ -14,11 +14,11 @@ class CPU {
 
     $result = array();
 
-    $getLoad = sys_getloadavg();
-    $cpuCurFreq = round(file_get_contents("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq") / 1000) . "MHz";
-    $cpuMinFreq = round(file_get_contents("/sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq") / 1000) . "MHz";
-    $cpuMaxFreq = round(file_get_contents("/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq") / 1000) . "MHz";
-    $cpuFreqGovernor = file_get_contents("/sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
+    $getLoad = sys_getloadavg();         
+    $cpuCurFreq = round(shell_exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq") / 1000) . "MHz";
+    $cpuMinFreq = round(shell_exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq") / 1000) . "MHz";
+    $cpuMaxFreq = round(shell_exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq") / 1000) . "MHz";
+    $cpuFreqGovernor = shell_exec("cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor");
 
     if ($getLoad[0] > 1)
       $result['alert'] = 'danger';
@@ -41,10 +41,9 @@ class CPU {
   public static function heat() {
 
     $result = array();
-
-    $fh = fopen("/sys/class/thermal/thermal_zone0/temp", 'r');
-    $currenttemp = fgets($fh);
-    fclose($fh);
+    
+    $currenttemp = shell_exec("cat /sys/class/thermal/thermal_zone0/temp");
+        
 
 	$cpuDetails = shell_exec('ps -e -o pcpu,user,args --sort=-pcpu | sed "/^ 0.0 /d" | head -' . self::$DETAIL_LINE_COUNT);
 
