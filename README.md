@@ -1,5 +1,5 @@
 # Arch Linux Version
-Only for Arch Linux distribution, now all the monitoring value work. Big thank for  imjacobclark ;)
+Only for Arch Linux distribution, now all the monitoring values work. Big thank for  imjacobclark ;)
 
 # Raspcontrol
 
