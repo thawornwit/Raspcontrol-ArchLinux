@@ -8,7 +8,7 @@ class Users {
 
     $result = array();
 
-    $dataRaw = shell_exec("who --ips");
+    $dataRaw = shell_exec("who -u");
     $dataRawDNS = shell_exec("who --lookup");
 
     foreach (explode ("\n", $dataRawDNS) as $line) {
@@ -22,17 +22,16 @@ class Users {
 
     $i = 0;
     foreach (explode ("\n", $dataRaw) as $line) {
-      $line = preg_replace("/ +/", " ", $line);
-
+      $line = preg_replace("/\s\s+/", " ", $line);
       if (strlen($line)>0) {
         $line = explode(" ", $line);
 
         $result[] = array(
           'user' => $line[0],
-          'ip' => $line[5],
+          'ip' => str_replace(array("(",")"), "", $line[6]),
           'dns' => $temp[$i],
-          'date' => $line[2] .' '. $line[3],
-          'hour' => $line[4]
+          'date' => $line[2],
+          'hour' => $line[3]
           );
       }
       $i++;
