@@ -1,3 +1,6 @@
+# Arch Linux Version
+Only for Arch Linux distribution, now all the monitoring value work. Big thank for  imjacobclark ;)
+
 # Raspcontrol
 
 Raspcontrol is a web control centre written in PHP for Raspberry Pi.
