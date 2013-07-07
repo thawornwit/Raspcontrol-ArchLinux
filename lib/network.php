@@ -17,17 +17,18 @@ class Network {
 
   public static function ethernet() {
 
-  $data = shell_exec("/sbin/ifconfig eth0 | grep RX\ bytes");
-  $data = str_ireplace("RX bytes:", "", $data);
-  $data = str_ireplace("TX bytes:", "", $data);
-  $data = trim($data);
-  $data = explode(" ", $data);
-      
-  $rxRaw = $data[0] / 1024 / 1024;
-  $txRaw = $data[4] / 1024 / 1024;
+  $rxData = shell_exec("/sbin/ifconfig eth0 | grep RX\ packets");
+  $rxData = trim($rxData);
+  $rxData = explode(" ", $rxData);      
+  $rxRaw = $rxData[5] / 1024 / 1024;
   $rx = round($rxRaw, 2);
+  
+  $txData = shell_exec("/sbin/ifconfig eth0 | grep TX\ packets");
+  $txData = trim($txData);
+  $txData = explode(" ", $txData);
+  $txRaw = $txData[5] / 1024 / 1024;
   $tx = round($txRaw, 2);
-
+  
   return array(
     'up' => $tx,
     'down' => $rx,
